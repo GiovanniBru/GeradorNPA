@@ -1,0 +1,34 @@
+Roteiro de atividades: 
+
+-- Síntese do Layout Físico: 
+
+1- Transformação do VHDL comportamental: 
+vasy -V -I vhdl -a geradorNPA 
+
+2 - Otimização da função booleana: 
+boom -A geradorNPA geradorNPA_otm
+
+3 - Prova de equivalência: 
+proof -a -d geradorNPA geradorNPA_otm
+
+4 - VHDL comportamental (.vbe) -> VHDL estrutural (.vst): 
+boog geradorNPA_otm geradorNPA_est
+
+5 - Otimização do .vst: 
+loon geradorNPA_est geradorNPA_est_otm 
+
+6 - Posicionamento das células padrão: 
+alliance-ocp geradorNPA_est_otm gerador_ap
+
+7 - Roteamento das células: 
+nero -p gerador_ap geradorNPA_est_otm gerador_ap2
+
+-- Geração de Padrões em C: 
+1 - Execução do arquivo .c criado: 
+alliance-genpat -v geradorNPA 
+
+2 - Visualização da saída: 
+xpat -l geradorNPA 
+
+-- Simulação do circuito com arquivo de padrões criado: 
+asimut geradorNPA_est_otm lfsr_sim gerador_result

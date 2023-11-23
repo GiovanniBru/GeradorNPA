@@ -1,0 +1,389 @@
+-- VHDL structural description generated from `gerador_cougar`
+--		date : Thu Nov  9 12:44:41 2023
+
+
+-- Entity Declaration
+
+ENTITY gerador_cougar IS
+  PORT (
+  vss : linkage BIT ;	-- vss
+  vdd : linkage BIT ;	-- vdd
+  lfsr_state : linkage BIT_VECTOR(7 DOWNTO 1) ;	-- lfsr_state
+  lfsr_out : linkage BIT_VECTOR(7 DOWNTO 0) ;	-- lfsr_out
+  clk : linkage BIT 	-- clk
+  );
+END gerador_cougar;
+
+-- Architecture Declaration
+
+ARCHITECTURE VST OF gerador_cougar IS
+  COMPONENT inv_x8
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT ;	-- vdd
+    nq : linkage BIT ;	-- nq
+    i : linkage BIT 	-- i
+    );
+  END COMPONENT;
+
+  COMPONENT sff1_x4
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT ;	-- vdd
+    q : linkage BIT ;	-- q
+    i : linkage BIT ;	-- i
+    ck : linkage BIT 	-- ck
+    );
+  END COMPONENT;
+
+  COMPONENT xr2_x1
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT ;	-- vdd
+    q : linkage BIT ;	-- q
+    i1 : linkage BIT ;	-- i1
+    i0 : linkage BIT 	-- i0
+    );
+  END COMPONENT;
+
+  COMPONENT buf_x2
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT ;	-- vdd
+    q : linkage BIT ;	-- q
+    i : linkage BIT 	-- i
+    );
+  END COMPONENT;
+
+  COMPONENT sff2_x4
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT ;	-- vdd
+    q : linkage BIT ;	-- q
+    i1 : linkage BIT ;	-- i1
+    i0 : linkage BIT ;	-- i0
+    cmd : linkage BIT ;	-- cmd
+    ck : linkage BIT 	-- ck
+    );
+  END COMPONENT;
+
+  COMPONENT tie_x0
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT 	-- vdd
+    );
+  END COMPONENT;
+
+  COMPONENT rowend_x0
+    port (
+    vss : linkage BIT ;	-- vss
+    vdd : linkage BIT 	-- vdd
+    );
+  END COMPONENT;
+
+  SIGNAL rtlalc_0_6 : BIT;	-- rtlalc_0 6
+  SIGNAL rtlalc_0_5 : BIT;	-- rtlalc_0 5
+  SIGNAL rtlalc_0_4 : BIT;	-- rtlalc_0 4
+  SIGNAL rtlalc_0_3 : BIT;	-- rtlalc_0 3
+  SIGNAL xr2_x1_3_sig : BIT;	-- xr2_x1_3_sig
+  SIGNAL xr2_x1_2_sig : BIT;	-- xr2_x1_2_sig
+  SIGNAL xr2_x1_sig : BIT;	-- xr2_x1_sig
+  SIGNAL rtlalc_0_2 : BIT;	-- rtlalc_0 2
+  SIGNAL xor_result : BIT;	-- xor_result
+  SIGNAL rtlalc_0_7 : BIT;	-- rtlalc_0 7
+  SIGNAL rtlalc_0_0 : BIT;	-- rtlalc_0 0
+  SIGNAL clk_borda : BIT;	-- clk_borda
+  SIGNAL rtlalc_0_1 : BIT;	-- rtlalc_0 1
+  SIGNAL not_clk_borda : BIT;	-- not_clk_borda
+
+BEGIN
+
+  rtlalc_0_1_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(2),
+    i1 => rtlalc_0_1,
+    q => rtlalc_0_1,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_1_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_1,
+    q => lfsr_out(1),
+    vdd => vdd,
+    vss => vss);
+  not_clk_borda_ins : inv_x8
+    PORT MAP (
+    i => clk_borda,
+    nq => not_clk_borda,
+    vdd => vdd,
+    vss => vss);
+  clk_borda_ins : sff1_x4
+    PORT MAP (
+    ck => clk,
+    i => not_clk_borda,
+    q => clk_borda,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_0_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_0,
+    q => lfsr_out(0),
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_0_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(1),
+    i1 => rtlalc_0_0,
+    q => rtlalc_0_0,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_7_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_7,
+    q => lfsr_out(7),
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_7_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => xor_result,
+    i1 => rtlalc_0_7,
+    q => rtlalc_0_7,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_2_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_2,
+    q => lfsr_out(2),
+    vdd => vdd,
+    vss => vss);
+  xor_result_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => clk_borda,
+    i0 => xor_result,
+    i1 => xr2_x1_sig,
+    q => xor_result,
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_2_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(3),
+    i1 => rtlalc_0_2,
+    q => rtlalc_0_2,
+    vdd => vdd,
+    vss => vss);
+  xr2_x1_2_ins : xr2_x1
+    PORT MAP (
+    i0 => lfsr_state(3),
+    i1 => lfsr_state(5),
+    q => xr2_x1_2_sig,
+    vdd => vdd,
+    vss => vss);
+  xr2_x1_3_ins : xr2_x1
+    PORT MAP (
+    i0 => lfsr_state(4),
+    i1 => lfsr_state(7),
+    q => xr2_x1_3_sig,
+    vdd => vdd,
+    vss => vss);
+  xr2_x1_ins : xr2_x1
+    PORT MAP (
+    i0 => xr2_x1_3_sig,
+    i1 => xr2_x1_2_sig,
+    q => xr2_x1_sig,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_3_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_3,
+    q => lfsr_out(3),
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_4_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_4,
+    q => lfsr_out(4),
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_4_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(5),
+    i1 => rtlalc_0_4,
+    q => rtlalc_0_4,
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_3_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(4),
+    i1 => rtlalc_0_3,
+    q => rtlalc_0_3,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_5_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_5,
+    q => lfsr_out(5),
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_5_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(6),
+    i1 => rtlalc_0_5,
+    q => rtlalc_0_5,
+    vdd => vdd,
+    vss => vss);
+  lfsr_out_6_ins : buf_x2
+    PORT MAP (
+    i => rtlalc_0_6,
+    q => lfsr_out(6),
+    vdd => vdd,
+    vss => vss);
+  rtlalc_0_6_ins : sff2_x4
+    PORT MAP (
+    ck => clk,
+    cmd => not_clk_borda,
+    i0 => lfsr_state(7),
+    i1 => rtlalc_0_6,
+    q => rtlalc_0_6,
+    vdd => vdd,
+    vss => vss);
+  tiex0_1 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_2 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_3 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_4 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_5 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_6 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_7 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_8 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_9 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_10 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_11 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_12 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_13 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_14 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  rowendx0_15 : rowend_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_16 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_17 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_18 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_19 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_20 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_21 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_22 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_23 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_24 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_25 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_26 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_27 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_28 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_29 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  tiex0_30 : tie_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+  rowendx0_31 : rowend_x0
+    PORT MAP (
+    vdd => vdd,
+    vss => vss);
+
+end VST;

@@ -1,0 +1,93 @@
+-- VHDL data flow description generated from `geradorNPA_otm`
+--		date : Thu Nov  9 12:22:08 2023
+
+
+-- Entity Declaration
+
+ENTITY geradorNPA_otm IS
+  PORT (
+  clk : in BIT;	-- clk
+  rst : in BIT;	-- rst
+  lfsr_state : in bit_vector(7 DOWNTO 0) ;	-- lfsr_state
+  lfsr_out : out bit_vector(7 DOWNTO 0) ;	-- lfsr_out
+  vdd : in BIT;	-- vdd
+  vss : in BIT	-- vss
+  );
+END geradorNPA_otm;
+
+
+-- Architecture Declaration
+
+ARCHITECTURE behaviour_data_flow OF geradorNPA_otm IS
+  SIGNAL rtlalc_0 : REG_VECTOR(7 DOWNTO 0) REGISTER;	-- rtlalc_0
+  SIGNAL xor_result : REG_BIT REGISTER;	-- xor_result
+  SIGNAL clk_borda : REG_BIT REGISTER;	-- clk_borda
+
+BEGIN
+  label0 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    clk_borda <= GUARDED NOT(clk_borda);
+  END BLOCK label0;
+  label1 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    xor_result <= GUARDED (((lfsr_state(7) XOR lfsr_state(4) XOR 
+lfsr_state(5) XOR lfsr_state(3)) AND clk_borda) OR (xor_result
+ AND NOT(clk_borda)));
+  END BLOCK label1;
+  label2 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (0) <= GUARDED ((lfsr_state(1) AND clk_borda) OR (rtlalc_0(0) 
+AND NOT(clk_borda)));
+  END BLOCK label2;
+  label3 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (1) <= GUARDED ((lfsr_state(2) AND clk_borda) OR (rtlalc_0(1) 
+AND NOT(clk_borda)));
+  END BLOCK label3;
+  label4 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (2) <= GUARDED ((lfsr_state(3) AND clk_borda) OR (rtlalc_0(2) 
+AND NOT(clk_borda)));
+  END BLOCK label4;
+  label5 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (3) <= GUARDED ((lfsr_state(4) AND clk_borda) OR (rtlalc_0(3) 
+AND NOT(clk_borda)));
+  END BLOCK label5;
+  label6 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (4) <= GUARDED ((lfsr_state(5) AND clk_borda) OR (rtlalc_0(4) 
+AND NOT(clk_borda)));
+  END BLOCK label6;
+  label7 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (5) <= GUARDED ((lfsr_state(6) AND clk_borda) OR (rtlalc_0(5) 
+AND NOT(clk_borda)));
+  END BLOCK label7;
+  label8 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (6) <= GUARDED ((lfsr_state(7) AND clk_borda) OR (rtlalc_0(6) 
+AND NOT(clk_borda)));
+  END BLOCK label8;
+  label9 : BLOCK ((clk AND NOT((clk'STABLE))) = '1')
+  BEGIN
+    rtlalc_0 (7) <= GUARDED ((xor_result AND clk_borda) OR (rtlalc_0(7) AND 
+NOT(clk_borda)));
+  END BLOCK label9;
+
+lfsr_out (0) <= rtlalc_0(0);
+
+lfsr_out (1) <= rtlalc_0(1);
+
+lfsr_out (2) <= rtlalc_0(2);
+
+lfsr_out (3) <= rtlalc_0(3);
+
+lfsr_out (4) <= rtlalc_0(4);
+
+lfsr_out (5) <= rtlalc_0(5);
+
+lfsr_out (6) <= rtlalc_0(6);
+
+lfsr_out (7) <= rtlalc_0(7);
+END;
