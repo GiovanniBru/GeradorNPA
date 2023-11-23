@@ -14,14 +14,14 @@ Para criação do gerador de números pseudo-aleatórios precisamos construir um
 feedback bem escolhida pode produzir uma sequência de bits que parece aleatória e tem um ciclo muito longo.
 O polinômio de realimentação usado para um registrador de 8 bits é definido por: 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/polinomio.png" width="200" />
 </p>
 Esse polinômio é utilizado para máxima realimentação linear possível com 8 bits. Seu período é definido por (2^𝑛 − 1) onde 𝑛 é o número de bits, portanto o período é igual à 255, ou seja, o gerador irá criar 255 números pseudo-aleatórios antes de repetir algum número. Esse resultado será provado no final.
 
 O gerador NPA construído funciona basicamente pegando um número binário de 8 bits como entrada e aplicando a função XOR em alguns de seus bits levando em consideração o polinômio escolhido, de maneira que o número não irá se repetir. Esse novo número gerado é usado como entrada de realimentação do mesmo circuito.
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/lfsr_funcionamento.png" width="200" />
 </p>
 <p align="center"> Figura 1: Ilustração do funcionamento do LFSR </p>
 
@@ -32,14 +32,14 @@ Com essa descrição comportamental do circuito feita, utilizamos a ferramenta _
 O arquivo _.vbe_ obtido foi otimizado através da ferramenta _boom_, que otimiza uma descrição comportamental usando uma representação RBDD (_Reduced Ordered Binary Decision Diagram_) de sua função lógica. Além disso, provamos a equivalência entre os arquivos obtidos com a ferramenta _proof_.
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/otimizacao.png" width="200" />
 </p>
 <p align="center"> Figura 2: Otimização e prova de equivalência </p>
 
 Após, usamos a ferramenta _boog_ (_Binding and Optimizing on Gates_) para mapear uma descrição comportamental em uma biblioteca de células padrão predefinidas. Essa ferramenta constrói uma rede booleana equivalente à descrição otimizada obtida com _boom_. Então, para cada função booleana de cada nó da rede ele tenta encontrar uma célula ou conjunto de células que implemente aquela função. O resultado é um arquivo “_.vst_” que será uma descrição estrutural baseada nas células da biblioteca _sxlib_ da Alliance. Em seguida otimizamos esse arquivo utilizando a ferramenta _loon_ (_Light Optimizing On Nets_).
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/otimizacao2.png" width="200" />
 </p>
 <p align="center"> Figura 3: Resultados da otimização do atraso crítico </p>
 
@@ -50,19 +50,19 @@ Podemos observar que a otimização aumentou a área, o não otimizado tem área
 Agora utilizamos a ferramenta _alliance-ocp_ para posicionar as células padrão no circuito que será criado, e a ferramenta nero para rotear essas células, com isso obtemos um arquivo “_.ap_” e conseguimos visualizar o circuito gerado através da descrição comportamental utilizando o comando _xsch_.
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/circuito.png" width="200" />
 </p>
 <p align="center"> Figura 4: Circuito obtido </p>
 
 Uma vez descrito o comportamento procedural e gerado o arquivo de padrão de testes com a biblioteca _genpat.h_, podemos visualizar esse padrão de testes gerado. O arquivo de padrão _.pat_ é um arquivo de texto, mas com um formato rígido que pode ser usado para simulação e que pode ser visualizado graficamente com a ferramenta _xpat_.
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/padroes_teste.png" width="200" />
 </p>
 <p align="center"> Figura 5: Visualização dos padrões de teste </p>
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/padroes_teste2.png" width="200" />
 </p>
 <p align="center"> Figura 6: 'lfsr_sim.pat' gerado pelo _genpat.h_ </p>
 
@@ -72,7 +72,7 @@ O _asimut_ produz um arquivo de padrão de teste com o resultado da comparação
 Utilizamos a ferramenta cougar para extrair o modelo _.vst_ do layout físico _.ap_ que foi obtido após o _asimut/nero_. Esse modelo extraído é usado na simulação junto ao arquivo de padrões gerado pelo _genpat_.
 
 <p align="center">
- <img src="https://github.com/GiovanniBru/" width="200" />
+ <img src="https://github.com/GiovanniBru/GeradorNPA/blob/main/imagens/asimut.png" width="200" />
 </p>
 <p align="center"> Figura 7: Execução da simulação com asimut </p>
 
